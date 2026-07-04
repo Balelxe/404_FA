@@ -14,10 +14,10 @@ export const mockTrip = {
     { id: 5, name: 'Noah', budget: 800, arrival: '2026-08-14 13:45', dietary: 'None', pace: 'Chill', interests: ['hiking', 'food', 'beach'] }
   ],
   itinerary: [
-    { day: 1, time: '09:00', activity: 'Breakfast at Oia', location: 'Oia', notes: 'Easy start after arrivals' },
-    { day: 1, time: '13:00', activity: 'Caldera boat cruise', location: 'Aegean Sea', notes: 'Budget-friendly shared activity' },
-    { day: 2, time: '10:00', activity: 'Village walk and cafés', location: 'Fira', notes: 'Balanced pace for everyone' },
-    { day: 2, time: '18:30', activity: 'Sunset dinner', location: 'Imerovigli', notes: 'Vegetarian and gluten-free options' }
+    { day: 1, time: '09:00', activity: 'Breakfast at Oia', location: 'Oia', notes: 'Easy start after arrivals', duration: '2h', estimate: 48 },
+    { day: 1, time: '13:00', activity: 'Caldera boat cruise', location: 'Aegean Sea', notes: 'Budget-friendly shared activity', duration: '3h', estimate: 60 },
+    { day: 2, time: '10:00', activity: 'Village walk and cafés', location: 'Fira', notes: 'Balanced pace for everyone', duration: '4h', estimate: 35 },
+    { day: 2, time: '18:30', activity: 'Sunset dinner', location: 'Imerovigli', notes: 'Vegetarian and gluten-free options', duration: '2h', estimate: 55 }
   ]
 };
 

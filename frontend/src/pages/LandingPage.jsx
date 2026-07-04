@@ -65,7 +65,9 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div className="flex items-center justify-center">
+          <div className="relative flex items-center justify-center">
+            <div className="pointer-events-none absolute -left-10 top-10 h-36 w-36 rounded-full bg-[var(--accent-sky)]/15 blur-3xl" />
+            <div className="pointer-events-none absolute right-6 bottom-6 h-28 w-28 rounded-full bg-[var(--accent-orange)]/15 blur-3xl" />
             <PhoneMockup />
           </div>
         </section>
