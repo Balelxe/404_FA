@@ -1,0 +1,46 @@
+{
+  "tripName": "Santorini Reset",
+  "destination": "Santorini, Greece",
+  "members": [
+    {
+      "name": "Cassandra",
+      "budget": 1200,
+      "arrival": "2026-08-14 14:00",
+      "dietary": "Vegetarian",
+      "pace": "Balanced",
+      "interests": ["cafe", "culture", "food"]
+    },
+    {
+      "name": "Mina",
+      "budget": 900,
+      "arrival": "2026-08-14 16:30",
+      "dietary": "None",
+      "pace": "Chill",
+      "interests": ["hiking", "shopping", "sunset"]
+    },
+    {
+      "name": "Theo",
+      "budget": 1100,
+      "arrival": "2026-08-14 12:00",
+      "dietary": "Gluten-free",
+      "pace": "Packed",
+      "interests": ["nightlife", "food", "culture"]
+    },
+    {
+      "name": "Jules",
+      "budget": 1000,
+      "arrival": "2026-08-14 15:00",
+      "dietary": "Vegan",
+      "pace": "Balanced",
+      "interests": ["cafe", "shopping", "culture"]
+    },
+    {
+      "name": "Noah",
+      "budget": 800,
+      "arrival": "2026-08-14 13:45",
+      "dietary": "None",
+      "pace": "Chill",
+      "interests": ["hiking", "food", "beach"]
+    }
+  ]
+}
