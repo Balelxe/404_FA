@@ -9,44 +9,44 @@ export default function OnboardingPage() {
   const [members, setMembers] = useState(mockTrip.members);
 
   return (
-    <div className="min-h-screen text-slate-100">
+    <div className="min-h-screen text-[var(--text-primary)] bg-transparent">
       <Navbar />
       <main className="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-12 lg:px-8">
         <Card>
           <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-sm text-cyan-200">Traveller preferences</p>
-              <h2 className="mt-2 text-3xl font-semibold text-white">Tell TripBuddy AI about your crew</h2>
+              <p className="text-sm text-[var(--green-primary)]">Traveller preferences</p>
+              <h2 className="mt-2 text-3xl font-semibold text-[var(--text-primary)]">Tell TripBuddy AI about your crew</h2>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-300">
+            <div className="rounded-[20px] border border-[var(--border)] bg-[var(--bg-secondary)] px-4 py-3 text-sm text-[var(--text-secondary)]">
               5 travellers ready to plan
             </div>
           </div>
           <div className="grid gap-4 lg:grid-cols-2">
             {members.map((member) => (
-              <div key={member.id} className="rounded-3xl border border-white/10 bg-slate-950/70 p-5">
-                <h3 className="text-lg font-semibold text-white">{member.name}</h3>
+              <div key={member.id} className="rounded-[24px] border border-[var(--border)] bg-[var(--bg-secondary)] p-5">
+                <h3 className="text-lg font-semibold text-[var(--text-primary)]">{member.name}</h3>
                 <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                  <label className="text-sm text-slate-400">
+                  <label className="text-sm text-[var(--text-secondary)]">
                     Budget
-                    <input className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-900 px-3 py-2 text-white" defaultValue={member.budget} />
+                    <input className="mt-2 w-full rounded-[16px] border border-[var(--border)] bg-white px-3 py-2 text-[var(--text-primary)]" defaultValue={member.budget} />
                   </label>
-                  <label className="text-sm text-slate-400">
+                  <label className="text-sm text-[var(--text-secondary)]">
                     Arrival Time
-                    <input className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-900 px-3 py-2 text-white" defaultValue={member.arrival} />
+                    <input className="mt-2 w-full rounded-[16px] border border-[var(--border)] bg-white px-3 py-2 text-[var(--text-primary)]" defaultValue={member.arrival} />
                   </label>
-                  <label className="text-sm text-slate-400">
+                  <label className="text-sm text-[var(--text-secondary)]">
                     Dietary
-                    <input className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-900 px-3 py-2 text-white" defaultValue={member.dietary} />
+                    <input className="mt-2 w-full rounded-[16px] border border-[var(--border)] bg-white px-3 py-2 text-[var(--text-primary)]" defaultValue={member.dietary} />
                   </label>
-                  <label className="text-sm text-slate-400">
+                  <label className="text-sm text-[var(--text-secondary)]">
                     Pace
-                    <input className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-900 px-3 py-2 text-white" defaultValue={member.pace} />
+                    <input className="mt-2 w-full rounded-[16px] border border-[var(--border)] bg-white px-3 py-2 text-[var(--text-primary)]" defaultValue={member.pace} />
                   </label>
                 </div>
-                <label className="mt-3 block text-sm text-slate-400">
+                <label className="mt-3 block text-sm text-[var(--text-secondary)]">
                   Interests
-                  <input className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-900 px-3 py-2 text-white" defaultValue={member.interests.join(', ')} />
+                  <input className="mt-2 w-full rounded-[16px] border border-[var(--border)] bg-white px-3 py-2 text-[var(--text-primary)]" defaultValue={member.interests.join(', ')} />
                 </label>
               </div>
             ))}

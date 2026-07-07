@@ -8,14 +8,19 @@
 :root {
   --bg-primary: #F7FCF8;
   --bg-secondary: #EEF8F2;
-  --green-primary: #43C59E;
-  --green-dark: #237A57;
+  --bg-mint: #E7F8F0;
+  --card-bg: #FFFFFF;
+  --green-primary: #53D3B1;
+  --green-hover: #35B892;
+  --accent-sky: #67D9F6;
   --accent-orange: #FDBB5F;
-  --accent-sky: #7CCCF8;
   --accent-coral: #FF8A65;
   --text-primary: #1B2B34;
-  --text-secondary: #5B6875;
-  --card-bg: #ffffff;
+  --text-secondary: #6B7B77;
+  --border: #E4EEE8;
+  --success: #35B892;
+  --warning: #FDBB5F;
+  --error: #FF7B72;
 }
 
 html { scroll-behavior: smooth; }
@@ -23,7 +28,7 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   min-height: 100vh;
-  background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary), var(--bg-mint));
   color: var(--text-primary);
   font-family: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -41,18 +46,39 @@ body {
 .fade-in-up { animation: fadeInUp .6s ease both; }
 
 .glass {
-  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.75));
-  box-shadow: 0 10px 30px rgba(16,24,40,0.06), 0 2px 6px rgba(16,24,40,0.04);
-  border: 1px solid rgba(27,43,52,0.06);
-  backdrop-filter: blur(8px) saturate(120%);
+  background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.8));
+  box-shadow: 0 10px 30px rgba(16,80,60,0.08);
+  border: 1px solid rgba(228,238,232,0.7);
+  backdrop-filter: blur(10px) saturate(120%);
 }
 
-.soft-shadow { box-shadow: 0 8px 30px rgba(27,43,52,0.06); }
+.soft-shadow { box-shadow: 0 10px 30px rgba(16,80,60,0.08); }
 
 .muted { color: var(--text-secondary); }
 
 .page-container { padding-left: 1.5rem; padding-right: 1.5rem; }
 
-.btn-primary { background: linear-gradient(90deg,var(--green-primary),var(--accent-sky)); color: white; }
+.btn-primary {
+  background: linear-gradient(90deg, var(--green-primary), var(--accent-sky));
+  color: white;
+  box-shadow: 0 10px 30px rgba(83,211,177,0.16);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(90deg, var(--green-hover), var(--accent-sky));
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: white;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 30px rgba(16,80,60,0.06);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-primary);
+}
 
 .rounded-xl-3 { border-radius: 28px; }

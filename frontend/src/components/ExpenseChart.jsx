@@ -19,7 +19,7 @@ export default function ExpenseChart({ data }) {
         </PieChart>
       </ResponsiveContainer>
       <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 text-center">
-        <div className="mx-auto w-28 rounded-full bg-white p-3 shadow-sm">
+        <div className="mx-auto w-28 rounded-full bg-white p-3 shadow-[0_15px_40px_rgba(16,80,60,0.08)]">
           <div className="text-sm muted">Total</div>
           <div className="text-lg font-semibold">${total}</div>
         </div>
