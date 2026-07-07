@@ -11,11 +11,11 @@ export default function Sidebar() {
   const location = useLocation();
 
   return (
-    <aside className="w-full rounded-[28px] border border-gray-100 bg-white p-4 shadow-md lg:w-64">
-      <div className="mb-6 rounded-[24px] bg-gradient-to-br from-[var(--green-primary)]/10 to-[var(--accent-sky)]/10 p-4">
-        <p className="text-sm muted">Trip plan</p>
+    <aside className="w-full rounded-[24px] border border-[var(--border)] bg-white p-5 shadow-[0_10px_30px_rgba(16,80,60,0.08)] lg:w-64">
+      <div className="mb-6 rounded-[24px] bg-[var(--bg-secondary)] p-4">
+        <p className="text-sm text-[var(--text-secondary)]">Trip plan</p>
         <h3 className="mt-1 text-xl font-semibold text-[var(--text-primary)]">Santorini Reset</h3>
-        <p className="mt-2 text-sm muted">A calm, premium trip flow for 5 travellers.</p>
+        <p className="mt-2 text-sm text-[var(--text-secondary)]">A calm, premium trip flow for 5 travellers.</p>
       </div>
       <nav className="space-y-2">
         {links.map((link) => {
@@ -25,9 +25,9 @@ export default function Sidebar() {
             <Link
               key={link.to}
               to={link.to}
-              className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition ${active ? 'bg-[var(--bg-secondary)] text-[var(--green-dark)] shadow-sm' : 'text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)]'}`}
+              className={`flex items-center gap-3 rounded-[16px] px-4 py-3 text-sm font-medium transition ${active ? 'bg-gradient-to-r from-[var(--green-primary)] to-[var(--accent-sky)] text-white shadow-[0_10px_30px_rgba(83,211,177,0.16)]' : 'text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)]'}`}
             >
-              <Icon size={16} />
+              <Icon size={16} className={active ? 'text-white' : 'text-[#8FA59A]'} />
               {link.label}
             </Link>
           );
