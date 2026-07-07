@@ -5,10 +5,192 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TripBuddy AI</title>
     <meta name="description" content="AI-powered group travel planner" />
-    <script type="module" crossorigin src="/assets/index-DxqH9tGg.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-fJAroR2l.css">
+    <style>
+      .tripbuddy-telegram-fab {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        width: 56px;
+        height: 56px;
+        border: none;
+        border-radius: 50%;
+        background: #229ed9;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 16px rgba(34, 158, 217, 0.4);
+        cursor: pointer;
+        z-index: 9999;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .tripbuddy-telegram-fab:hover {
+        transform: scale(1.1);
+      }
+
+      .tripbuddy-telegram-fab:active {
+        transform: scale(0.98);
+      }
+
+      .tripbuddy-badge {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #44b700;
+        border: 2px solid white;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .tripbuddy-badge::after {
+        content: "";
+        position: absolute;
+        inset: -3px;
+        border: 2px solid rgba(68, 183, 0, 0.35);
+        border-radius: 50%;
+        animation: pulse-ring 2s infinite;
+        opacity: 0;
+      }
+
+      @keyframes pulse-ring {
+        0% {
+          transform: scale(0.7);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1.7);
+          opacity: 0;
+        }
+      }
+
+      .tripbuddy-chat-panel {
+        position: fixed;
+        right: 24px;
+        bottom: 96px;
+        width: 300px;
+        padding: 16px;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        z-index: 9998;
+        opacity: 0;
+        transform: translateY(20px);
+        pointer-events: none;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+
+      .tripbuddy-chat-panel.is-open {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      .tripbuddy-chat-panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+
+      .tripbuddy-chat-panel-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 700;
+        color: #0f172a;
+      }
+
+      .tripbuddy-chat-panel-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #44b700;
+      }
+
+      .tripbuddy-chat-panel-close {
+        background: transparent;
+        border: none;
+        color: #64748b;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 0;
+        line-height: 1;
+      }
+
+      .tripbuddy-chat-panel-subtext {
+        margin: 0 0 14px;
+        color: #64748b;
+        font-size: 14px;
+        line-height: 1.4;
+      }
+
+      .tripbuddy-chat-panel-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: #229ed9;
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background 0.2s ease;
+      }
+
+      .tripbuddy-chat-panel-button:hover {
+        background: #1b7fb0;
+      }
+
+      @media (max-width: 768px) {
+        .tripbuddy-telegram-fab {
+          bottom: 80px;
+        }
+
+        .tripbuddy-chat-panel {
+          right: 16px;
+          left: 16px;
+          width: auto;
+          bottom: 120px;
+        }
+      }
+    </style>
+    <script type="module" crossorigin src="/assets/index-Cbg3Ilgt.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-Is2RUq4u.css">
   </head>
   <body class="bg-slate-950">
-    <div id="root"></div>
+    <div id="root"></div>
+
+    <button
+      id="tripbuddyTelegramFab"
+      class="tripbuddy-telegram-fab"
+      type="button"
+      aria-label="Chat with TripBuddy AI"
+      title="Chat with TripBuddy AI"
+    >
+      <span class="tripbuddy-badge" aria-hidden="true"></span>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="28" height="28" aria-hidden="true">
+        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-1.97 9.289c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.047-.333-.373-.12L8.093 13.68l-2.948-.924c-.64-.203-.653-.64.136-.954l11.566-4.461c.537-.194 1.006.131.715.907z" />
+      </svg>
+    </button>
+
+    <div id="tripbuddyChatPanel" class="tripbuddy-chat-panel" role="dialog" aria-label="TripBuddy AI chat preview">
+      <div class="tripbuddy-chat-panel-header">
+        <div class="tripbuddy-chat-panel-title">
+          <span class="tripbuddy-chat-panel-dot" aria-hidden="true"></span>
+          <span>TripBuddy AI</span>
+        </div>
+        <button id="tripbuddyChatPanelClose" class="tripbuddy-chat-panel-close" type="button" aria-label="Close chat preview">×</button>
+      </div>
+      <p class="tripbuddy-chat-panel-subtext">Ask me anything about your trip</p>
+      <a class="tripbuddy-chat-panel-button" href="https://t.me/fa_tripbuddy_bot" target="_blank" rel="noopener noreferrer">
+        Open in Telegram
+      </a>
+    </div>
+
   </body>
 </html>
