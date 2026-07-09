@@ -6,18 +6,17 @@
 @tailwind utilities;
 
 :root {
-  --bg-primary: #F7FCF8;
+  --bg-primary: #F8FCF9;
   --bg-secondary: #EEF8F2;
-  --bg-mint: #E7F8F0;
   --card-bg: #FFFFFF;
-  --green-primary: #53D3B1;
-  --green-hover: #35B892;
+  --green-primary: #4FD1B5;
+  --green-hover: #3BB89A;
   --accent-sky: #67D9F6;
   --accent-orange: #FDBB5F;
   --accent-coral: #FF8A65;
-  --text-primary: #1B2B34;
-  --text-secondary: #6B7B77;
-  --border: #E4EEE8;
+  --text-primary: #1D2B36;
+  --text-secondary: #64727A;
+  --border: #E8F0EB;
   --success: #35B892;
   --warning: #FDBB5F;
   --error: #FF7B72;
@@ -28,7 +27,7 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary), var(--bg-mint));
+  background: linear-gradient(135deg, var(--bg-primary), #F1F9F5);
   color: var(--text-primary);
   font-family: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;

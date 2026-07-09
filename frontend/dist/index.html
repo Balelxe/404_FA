@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TripBuddy AI</title>
     <meta name="description" content="AI-powered group travel planner" />
-<<<<<<< HEAD
     <style>
       .tripbuddy-telegram-fab {
         position: fixed;
@@ -160,12 +159,8 @@
         }
       }
     </style>
-    <script type="module" crossorigin src="/assets/index-Cbg3Ilgt.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-Is2RUq4u.css">
-=======
-    <script type="module" crossorigin src="/assets/index-BRkMCDgY.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-5MKyjrke.css">
->>>>>>> 2533e1b0ae024000f4066324665d7b3b2865b9c2
+    <script type="module" crossorigin src="/assets/index-CeDhK-2I.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DRzKCG5o.css">
   </head>
   <body class="bg-slate-950">
     <div id="root"></div>
@@ -196,6 +191,42 @@
         Open in Telegram
       </a>
     </div>
-
+
+    <script>
+      const fab = document.getElementById('tripbuddyTelegramFab');
+      const panel = document.getElementById('tripbuddyChatPanel');
+      const closeButton = document.getElementById('tripbuddyChatPanelClose');
+
+      const openPanel = () => {
+        panel.classList.add('is-open');
+      };
+
+      const closePanel = () => {
+        panel.classList.remove('is-open');
+      };
+
+      fab.addEventListener('click', (event) => {
+        event.stopPropagation();
+        if (panel.classList.contains('is-open')) {
+          closePanel();
+        } else {
+          openPanel();
+        }
+      });
+
+      closeButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        closePanel();
+      });
+
+      document.addEventListener('click', (event) => {
+        const clickInsidePanel = panel.contains(event.target);
+        const clickOnFab = fab.contains(event.target);
+
+        if (!clickInsidePanel && !clickOnFab && panel.classList.contains('is-open')) {
+          closePanel();
+        }
+      });
+    </script>
   </body>
 </html>

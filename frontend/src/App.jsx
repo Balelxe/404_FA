@@ -5,20 +5,18 @@ import OnboardingPage from './pages/OnboardingPage';
 import DashboardPage from './pages/DashboardPage';
 import ItineraryPage from './pages/ItineraryPage';
 import ExpensesPage from './pages/ExpensesPage';
-import FloatingAssistant from './components/FloatingAssistant';
 
 function App() {
   return (
     <>
       <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/create" element={<CreateTripPage />} />
-      <Route path="/onboarding" element={<OnboardingPage />} />
-      <Route path="/dashboard" element={<DashboardPage />} />
-      <Route path="/itinerary" element={<ItineraryPage />} />
-      <Route path="/expenses" element={<ExpensesPage />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/create" element={<CreateTripPage />} />
+        <Route path="/onboarding" element={<OnboardingPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/itinerary" element={<ItineraryPage />} />
+        <Route path="/expenses" element={<ExpensesPage />} />
       </Routes>
-      <FloatingAssistant />
     </>
   );
 }
