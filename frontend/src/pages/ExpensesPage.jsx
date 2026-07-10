@@ -5,8 +5,10 @@ import Sidebar from '../components/Sidebar';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import { fetchExpenses, createExpense } from '../api/client';
+import { useTrip } from '../context/TripContext';
 
 export default function ExpensesPage() {
+  const { activeTrip } = useTrip();
   const [expenses, setExpenses] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(true);

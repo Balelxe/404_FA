@@ -8,9 +8,9 @@ import ExpenseChart from '../components/ExpenseChart';
 import MemberCard from '../components/MemberCard';
 import Button from '../components/Button';
 import ChatInput from '../components/ChatInput';
-import { mockTrip } from '../data/mockData';
 import { Link } from 'react-router-dom';
 import { fetchMembers, fetchExpenses } from '../api/client';
+import { useTrip } from '../context/TripContext';
 
 const chartData = [
   { name: 'Food', value: 240 },
@@ -20,7 +20,8 @@ const chartData = [
 ];
 
 export default function DashboardPage() {
-  const [members, setMembers] = useState(mockTrip.members);
+  const { activeTrip } = useTrip();
+  const [members, setMembers] = useState(activeTrip?.members || []);
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -48,8 +49,8 @@ export default function DashboardPage() {
           <Sidebar />
           <div className="flex-1 space-y-6">
             <section className="grid gap-4 md:grid-cols-3">
-              <DashboardCard title="Trip overview" value={mockTrip.destination} hint="A beautiful balance of chill and energy" icon="✈️" />
-              <DashboardCard title="Group budget" value={`$${mockTrip.budget}`} hint="Comfort-first planning" icon="💸" />
+              <DashboardCard title="Trip overview" value={activeTrip?.destination || 'Your trip'} hint="A beautiful balance of chill and energy" icon="✈️" />
+              <DashboardCard title="Group budget" value={`$${activeTrip?.budget || 0}`} hint="Comfort-first planning" icon="💸" />
               <DashboardCard title="Members" value={`${members.length} travellers`} hint="Preferences synced" icon="👥" />
             </section>
 
@@ -93,7 +94,7 @@ export default function DashboardPage() {
                     <div className="rounded-full bg-[var(--success)]/15 px-3 py-1 text-sm text-[var(--success)]">Ready</div>
                   </div>
                   <div className="space-y-3">
-                    {mockTrip.itinerary.map((item) => (
+                    {(activeTrip?.itinerary || []).map((item) => (
                       <div key={`${item.day}-${item.time}`} className="flex items-start gap-3 rounded-[20px] border border-[var(--border)] bg-white p-3">
                         <div className="rounded-2xl bg-[var(--bg-secondary)] p-2 text-[var(--green-primary)]">
                           <Clock3 size={16} />

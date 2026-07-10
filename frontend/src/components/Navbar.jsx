@@ -18,6 +18,9 @@ export default function Navbar() {
           <Link to="/create" className="rounded-[16px] border border-[var(--border)] bg-white px-4 py-2 text-[var(--text-primary)] transition hover:shadow-[0_10px_30px_rgba(16,80,60,0.08)]">
             Create Trip
           </Link>
+          <Link to="/my-trips" className="rounded-[16px] border border-[var(--border)] bg-white px-4 py-2 text-[var(--text-primary)] transition hover:shadow-[0_10px_30px_rgba(16,80,60,0.08)]">
+            My Trips
+          </Link>
           <Link to="/dashboard" className="flex items-center gap-2 rounded-[16px] btn-primary px-4 py-2 font-medium text-white transition hover:opacity-95">
             <Sparkles size={16} />
             Open Dashboard

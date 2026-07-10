@@ -36,6 +36,21 @@ async function callGemini(prompt) {
   return text;
 }
 
+// GET /api/trips
+app.get('/api/trips', (req, res) => {
+  res.json(trips);
+});
+
+// GET /api/trips/:id
+app.get('/api/trips/:id', (req, res) => {
+  const trip = trips.find((item) => item.id === req.params.id);
+  if (!trip) {
+    return res.status(404).json({ message: 'Trip not found' });
+  }
+
+  res.json(trip);
+});
+
 // POST /api/trips
 app.post('/api/trips', (req, res) => {
   const trip = { id: Date.now().toString(), ...req.body };

@@ -20,6 +20,21 @@ export function fetchMembers() {
   return request('/api/members');
 }
 
+export function fetchTrips() {
+  return request('/api/trips');
+}
+
+export function fetchTrip(id) {
+  return request(`/api/trips/${id}`);
+}
+
+export function createTrip(payload) {
+  return request('/api/trips', {
+    method: 'POST',
+    body: JSON.stringify(payload)
+  });
+}
+
 export function fetchExpenses() {
   return request('/api/expenses');
 }
