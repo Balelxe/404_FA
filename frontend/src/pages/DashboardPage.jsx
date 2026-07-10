@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { ArrowRight, Bot, CheckCircle2, Clock3, Sparkles, Wallet, Users, Plane, UtensilsCrossed, Mountain, Camera, CircleDollarSign } from 'lucide-react';
+import { Bot, Clock3, Sparkles, Wallet, Plane, UtensilsCrossed, CircleDollarSign } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import Card from '../components/Card';
@@ -9,7 +8,6 @@ import MemberCard from '../components/MemberCard';
 import Button from '../components/Button';
 import ChatInput from '../components/ChatInput';
 import { Link } from 'react-router-dom';
-import { fetchMembers, fetchExpenses } from '../api/client';
 import { useTrip } from '../context/TripContext';
 
 const chartData = [
@@ -21,25 +19,7 @@ const chartData = [
 
 export default function DashboardPage() {
   const { activeTrip } = useTrip();
-  const [members, setMembers] = useState(activeTrip?.members || []);
-  const [expenses, setExpenses] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function loadData() {
-      try {
-        const [membersData, expensesData] = await Promise.all([fetchMembers(), fetchExpenses()]);
-        setMembers(membersData);
-        setExpenses(expensesData);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadData();
-  }, []);
+  const members = activeTrip?.members || [];
 
   return (
     <div className="min-h-screen text-[var(--text-primary)] bg-transparent">
@@ -152,11 +132,7 @@ export default function DashboardPage() {
                   </div>
                 </div>
                 <div className="grid gap-3 md:grid-cols-2">
-                  {loading ? (
-                    <p className="text-sm text-[var(--text-secondary)]">Loading group members…</p>
-                  ) : (
-                    members.map((member) => <MemberCard key={member.id} member={member} />)
-                  )}
+                  {members.map((member) => <MemberCard key={member.id} member={member} />)}
                 </div>
               </Card>
 

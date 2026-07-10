@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Compass, ReceiptText, Sparkles } from 'lucide-react';
+import { useTrip } from '../context/TripContext';
 
 const links = [
   { to: '/dashboard', label: 'Overview', icon: Compass },
@@ -9,13 +10,15 @@ const links = [
 
 export default function Sidebar() {
   const location = useLocation();
+  const { activeTrip } = useTrip();
+  const travellerCount = activeTrip?.members?.length || 0;
 
   return (
     <aside className="w-full rounded-[24px] border border-[var(--border)] bg-white p-5 shadow-[0_10px_30px_rgba(16,80,60,0.08)] lg:w-64">
       <div className="mb-6 rounded-[24px] bg-[var(--bg-secondary)] p-4">
         <p className="text-sm text-[var(--text-secondary)]">Trip plan</p>
-        <h3 className="mt-1 text-xl font-semibold text-[var(--text-primary)]">Santorini Reset</h3>
-        <p className="mt-2 text-sm text-[var(--text-secondary)]">A calm, premium trip flow for 5 travellers.</p>
+        <h3 className="mt-1 text-xl font-semibold text-[var(--text-primary)]">{activeTrip?.name || 'Your trip'}</h3>
+        <p className="mt-2 text-sm text-[var(--text-secondary)]">A calm, premium trip flow for {travellerCount} travellers.</p>
       </div>
       <nav className="space-y-2">
         {links.map((link) => {

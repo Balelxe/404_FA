@@ -16,10 +16,6 @@ async function request(path, options = {}) {
   return response.json();
 }
 
-export function fetchMembers() {
-  return request('/api/members');
-}
-
 export function fetchTrips() {
   return request('/api/trips');
 }
@@ -35,8 +31,9 @@ export function createTrip(payload) {
   });
 }
 
-export function fetchExpenses() {
-  return request('/api/expenses');
+export function fetchExpenses(tripId) {
+  const query = tripId ? `?tripId=${encodeURIComponent(tripId)}` : '';
+  return request(`/api/expenses${query}`);
 }
 
 export function createExpense(payload) {

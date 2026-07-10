@@ -10,13 +10,15 @@ import { useTrip } from '../context/TripContext';
 export default function ExpensesPage() {
   const { activeTrip } = useTrip();
   const [expenses, setExpenses] = useState([]);
-  const [input, setInput] = useState('');
+  const [description, setDescription] = useState('');
+  const [amount, setAmount] = useState('');
+  const [paidBy, setPaidBy] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadExpenses() {
       try {
-        const data = await fetchExpenses();
+        const data = await fetchExpenses(activeTrip?.id);
         setExpenses(data);
       } catch (error) {
         console.error(error);
@@ -25,24 +27,40 @@ export default function ExpensesPage() {
       }
     }
 
-    loadExpenses();
-  }, []);
+    if (activeTrip?.id) {
+      loadExpenses();
+    } else {
+      setExpenses([]);
+      setLoading(false);
+    }
+  }, [activeTrip?.id]);
+
+  useEffect(() => {
+    setPaidBy(activeTrip?.members?.[0]?.name || '');
+  }, [activeTrip?.id]);
 
   async function addExpense() {
-    if (!input.trim()) return;
+    if (!description.trim() || !amount || !paidBy) return;
+
+    const numericAmount = Number(amount);
+    if (Number.isNaN(numericAmount) || numericAmount <= 0) return;
+
     const newExpense = {
-      paidBy: 'You',
-      amount: 90,
+      tripId: activeTrip?.id,
+      paidBy,
+      amount: numericAmount,
       category: 'Food',
-      description: input,
-      splitBetween: ['Cassandra', 'Mina', 'Theo', 'Jules', 'Noah'],
+      description: description.trim(),
+      splitBetween: (activeTrip?.members || []).map((member) => member.name),
       status: 'pending'
     };
 
     try {
       const created = await createExpense(newExpense);
-      setExpenses([created, ...expenses]);
-      setInput('');
+      setExpenses((current) => [created, ...current]);
+      setDescription('');
+      setAmount('');
+      setPaidBy(activeTrip?.members?.[0]?.name || '');
     } catch (error) {
       console.error(error);
     }
@@ -67,12 +85,34 @@ export default function ExpensesPage() {
                 </div>
                 <Button onClick={addExpense}>Add expense</Button>
               </div>
-              <textarea
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                className="min-h-24 w-full rounded-[24px] border border-[var(--border)] bg-white p-4 text-sm text-[var(--text-primary)] outline-none ring-0"
-                placeholder='Example: Cassandra paid $60 for dinner split with everyone'
-              />
+              <div className="grid gap-3 md:grid-cols-[1.2fr_0.4fr_0.4fr]">
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="min-h-24 w-full rounded-[24px] border border-[var(--border)] bg-white p-4 text-sm text-[var(--text-primary)] outline-none ring-0"
+                  placeholder='Example: Dinner at the harbor'
+                />
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  className="w-full rounded-[24px] border border-[var(--border)] bg-white p-4 text-sm text-[var(--text-primary)] outline-none ring-0"
+                  placeholder="Amount"
+                />
+                <select
+                  value={paidBy}
+                  onChange={(e) => setPaidBy(e.target.value)}
+                  className="w-full rounded-[24px] border border-[var(--border)] bg-white p-4 text-sm text-[var(--text-primary)] outline-none ring-0"
+                >
+                  {(activeTrip?.members || []).map((member) => (
+                    <option key={member.id} value={member.name}>
+                      {member.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </Card>
 
             <Card className="transition duration-300 hover:-translate-y-1">
