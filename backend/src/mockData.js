@@ -22,6 +22,6 @@ export const mockTrip = {
 };
 
 export const mockExpenses = [
-  { id: 1, paidBy: 'Cassandra', amount: 60, category: 'Food', description: 'Dinner split with everyone', splitBetween: ['Cassandra', 'Mina', 'Theo', 'Jules', 'Noah'], status: 'settled' },
-  { id: 2, paidBy: 'Theo', amount: 140, category: 'Transport', description: 'Taxi to the port', splitBetween: ['Theo', 'Jules', 'Noah'], status: 'pending' }
+  { id: 1, tripId: 'trip-001', paidBy: 'Cassandra', amount: 60, category: 'Food', description: 'Dinner split with everyone', splitBetween: ['Cassandra', 'Mina', 'Theo', 'Jules', 'Noah'], status: 'settled' },
+  { id: 2, tripId: 'trip-001', paidBy: 'Theo', amount: 140, category: 'Transport', description: 'Taxi to the port', splitBetween: ['Theo', 'Jules', 'Noah'], status: 'pending' }
 ];

@@ -10,7 +10,6 @@ app.use(cors());
 app.use(express.json());
 
 const trips = [mockTrip];
-const members = [...mockTrip.members];
 const expenses = [...mockExpenses];
 
 async function callGemini(prompt) {
@@ -58,21 +57,15 @@ app.post('/api/trips', (req, res) => {
   res.status(201).json(trip);
 });
 
-// POST /api/members
-app.post('/api/members', (req, res) => {
-  const member = { id: Date.now(), ...req.body };
-  members.push(member);
-  res.status(201).json(member);
-});
-
-// GET /api/members
-app.get('/api/members', (req, res) => {
-  res.json(members);
+// GET /api/trips/:id/members
+app.get('/api/trips/:id/members', (req, res) => {
+  const trip = trips.find((t) => t.id === req.params.id);
+  res.json(trip?.members || []);
 });
 
 // POST /api/generate-itinerary
 app.post('/api/generate-itinerary', async (req, res) => {
-  const prompt = buildItineraryPrompt(req.body.members || members);
+  const prompt = buildItineraryPrompt(req.body.members || []);
 
   try {
     const geminiResponse = await callGemini(prompt);
@@ -96,14 +89,16 @@ app.post('/api/generate-itinerary', async (req, res) => {
 
 // POST /api/expenses
 app.post('/api/expenses', (req, res) => {
-  const expense = { id: Date.now(), ...req.body };
+  const expense = { id: Date.now(), tripId: req.body.tripId, ...req.body };
   expenses.push(expense);
   res.status(201).json(expense);
 });
 
 // GET /api/expenses
 app.get('/api/expenses', (req, res) => {
-  res.json(expenses);
+  const { tripId } = req.query;
+  const filtered = tripId ? expenses.filter((e) => e.tripId === tripId) : expenses;
+  res.json(filtered);
 });
 
 // Gemini prompt helpers
