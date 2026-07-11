@@ -34,6 +34,29 @@ export function TripProvider({ children }) {
     loadTrips();
   }, []);
 
+  useEffect(() => {
+    if (!activeTrip?.id) {
+      return;
+    }
+
+    setTrips((currentTrips) => {
+      const existingTripIndex = currentTrips.findIndex((trip) => trip.id === activeTrip.id);
+
+      if (existingTripIndex === -1) {
+        return [activeTrip, ...currentTrips];
+      }
+
+      const existingTrip = currentTrips[existingTripIndex];
+      const hasChanged = JSON.stringify(existingTrip) !== JSON.stringify(activeTrip);
+
+      if (!hasChanged) {
+        return currentTrips;
+      }
+
+      return currentTrips.map((trip, index) => (index === existingTripIndex ? activeTrip : trip));
+    });
+  }, [activeTrip]);
+
   const value = useMemo(() => ({
     trips,
     activeTrip,
