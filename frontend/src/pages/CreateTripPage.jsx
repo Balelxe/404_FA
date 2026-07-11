@@ -37,7 +37,7 @@ export default function CreateTripPage() {
     try {
       const createdTrip = await createTrip({
         ...trip,
-        budget: 5000,
+        budget: 0,
         members: buildInitialMembers(trip),
         itinerary: []
       });

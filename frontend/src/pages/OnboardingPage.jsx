@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Card from '../components/Card';
@@ -8,6 +8,10 @@ import { useTrip } from '../context/TripContext';
 export default function OnboardingPage() {
   const { activeTrip, setActiveTrip } = useTrip();
   const [members, setMembers] = useState([]);
+  const totalBudget = useMemo(
+    () => members.reduce((sum, member) => sum + (Number(member.budget) || 0), 0),
+    [members]
+  );
 
   useEffect(() => {
     if (activeTrip?.members?.length) {
@@ -50,6 +54,12 @@ export default function OnboardingPage() {
     setActiveTrip((current) => (current ? { ...current, members: nextMembers } : current));
   }
 
+  useEffect(() => {
+    setActiveTrip((current) =>
+      current ? { ...current, budget: totalBudget } : current
+    );
+  }, [totalBudget, setActiveTrip]);
+
   return (
     <div className="min-h-screen text-[var(--text-primary)] bg-transparent">
       <Navbar />
@@ -60,8 +70,13 @@ export default function OnboardingPage() {
               <p className="text-sm text-[var(--green-primary)]">Traveller preferences</p>
               <h2 className="mt-2 text-3xl font-semibold text-[var(--text-primary)]">Tell TripBuddy AI about your crew</h2>
             </div>
-            <div className="rounded-[20px] border border-[var(--border)] bg-[var(--bg-secondary)] px-4 py-3 text-sm text-[var(--text-secondary)]">
-              {members.length} travellers ready to plan
+            <div className="flex flex-wrap gap-3">
+              <div className="rounded-[20px] border border-[var(--border)] bg-[var(--bg-secondary)] px-4 py-3 text-sm text-[var(--text-secondary)]">
+                {members.length} travellers ready to plan
+              </div>
+              <div className="rounded-[20px] border border-[var(--border)] bg-[var(--bg-secondary)] px-4 py-3 text-sm text-[var(--text-secondary)]">
+                Group budget ${totalBudget}
+              </div>
             </div>
           </div>
           <div className="grid gap-4 lg:grid-cols-2">

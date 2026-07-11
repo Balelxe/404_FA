@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Bot, Clock3, Sparkles, Wallet, Plane, UtensilsCrossed, CircleDollarSign } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
@@ -9,17 +10,69 @@ import Button from '../components/Button';
 import ChatInput from '../components/ChatInput';
 import { Link } from 'react-router-dom';
 import { useTrip } from '../context/TripContext';
-
-const chartData = [
-  { name: 'Food', value: 240 },
-  { name: 'Transport', value: 160 },
-  { name: 'Stay', value: 140 },
-  { name: 'Activities', value: 120 }
-];
+import { fetchExpenses, sendChatMessage } from '../api/client';
 
 export default function DashboardPage() {
   const { activeTrip } = useTrip();
   const members = activeTrip?.members || [];
+  const [expenses, setExpenses] = useState([]);
+  const [chatHistory, setChatHistory] = useState([]);
+  const [isChatting, setIsChatting] = useState(false);
+  const [chatError, setChatError] = useState('');
+
+  useEffect(() => {
+    async function loadExpenses() {
+      try {
+        const data = await fetchExpenses(activeTrip.id);
+        setExpenses(data);
+      } catch (error) {
+        console.error(error);
+        setExpenses([]);
+      }
+    }
+
+    if (activeTrip?.id) {
+      loadExpenses();
+    } else {
+      setExpenses([]);
+    }
+  }, [activeTrip?.id]);
+
+  const chartData = Object.entries(
+    expenses.reduce((summary, expense) => {
+      const category = expense.category || 'Other';
+      summary[category] = (summary[category] || 0) + expense.amount;
+      return summary;
+    }, {})
+  ).map(([name, value]) => ({ name, value }));
+
+  const currentBalance = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+
+  async function handleSendMessage(text) {
+    const cleanedText = text.trim();
+    if (!cleanedText) return;
+
+    setChatError('');
+    setChatHistory((prev) => [...prev, { id: Date.now(), role: 'user', content: cleanedText }]);
+    setIsChatting(true);
+
+    try {
+      const data = await sendChatMessage(cleanedText, activeTrip?.id);
+      setChatHistory((prev) => [
+        ...prev,
+        { id: Date.now() + 1, role: 'assistant', content: data?.reply || "TripBuddy AI isn't available right now — try again shortly." }
+      ]);
+    } catch (error) {
+      console.error(error);
+      setChatError('TripBuddy AI could not respond right now.');
+      setChatHistory((prev) => [
+        ...prev,
+        { id: Date.now() + 2, role: 'assistant', content: "TripBuddy AI isn't available right now — try again shortly." }
+      ]);
+    } finally {
+      setIsChatting(false);
+    }
+  }
 
   return (
     <div className="min-h-screen text-[var(--text-primary)] bg-transparent">
@@ -101,12 +154,18 @@ export default function DashboardPage() {
                   <Link to="/expenses"><Button variant="secondary">Add expense</Button></Link>
                 </div>
                 <div className="rounded-[24px] border border-[var(--border)] bg-white p-4">
-                  <ExpenseChart data={chartData} />
+                  {chartData.length === 0 ? (
+                    <div className="rounded-[24px] border border-dashed border-[var(--border)] bg-[var(--bg-secondary)] p-6 text-center text-sm text-[var(--text-secondary)]">
+                      No expenses yet — add one from the Expenses page
+                    </div>
+                  ) : (
+                    <ExpenseChart data={chartData} />
+                  )}
                 </div>
                 <div className="mt-4 rounded-[20px] border border-[var(--border)] bg-[var(--bg-secondary)] p-4 text-sm text-[var(--text-secondary)]">
                   <div className="flex items-center justify-between">
                     <span>Current balance</span>
-                    <span className="font-semibold text-[var(--text-primary)]">$1,240</span>
+                    <span className="font-semibold text-[var(--text-primary)]">${currentBalance}</span>
                   </div>
                   <div className="mt-2 flex items-center gap-2 text-[var(--green-primary)]">
                     <CircleDollarSign size={16} />
@@ -149,7 +208,33 @@ export default function DashboardPage() {
                 <div className="mb-4 rounded-[24px] border border-[var(--border)] bg-[var(--bg-secondary)] p-4 text-sm leading-7 text-[var(--text-secondary)]">
                   “Suggest a dinner spot that fits vegetarian and gluten-free guests while staying under our food budget.”
                 </div>
-                <ChatInput onSend={() => {}} />
+                <div className="mb-4 space-y-3">
+                  {chatHistory.length === 0 && !isChatting && (
+                    <div className="rounded-[20px] border border-dashed border-[var(--border)] bg-white p-4 text-sm text-[var(--text-secondary)]">
+                      Ask anything about meals, local spots, pace, or travel plans for this trip.
+                    </div>
+                  )}
+                  {chatHistory.map((entry) => (
+                    <div key={entry.id} className={`flex ${entry.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`max-w-[85%] rounded-[20px] px-4 py-3 text-sm leading-6 shadow-sm ${entry.role === 'user' ? 'bg-[var(--green-primary)] text-white' : 'border border-[var(--border)] bg-white text-[var(--text-primary)]'}`}>
+                        {entry.content}
+                      </div>
+                    </div>
+                  ))}
+                  {isChatting && (
+                    <div className="flex justify-start">
+                      <div className="rounded-[20px] border border-[var(--border)] bg-white px-4 py-3 text-sm text-[var(--text-secondary)] shadow-sm">
+                        TripBuddy AI is typing…
+                      </div>
+                    </div>
+                  )}
+                  {chatError && (
+                    <div className="rounded-[20px] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                      {chatError}
+                    </div>
+                  )}
+                </div>
+                <ChatInput onSend={handleSendMessage} />
               </Card>
             </section>
           </div>

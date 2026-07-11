@@ -12,26 +12,31 @@ app.use(express.json());
 const trips = [mockTrip];
 const expenses = [...mockExpenses];
 
-async function callGemini(prompt) {
-  if (!process.env.GEMINI_API_KEY) {
+async function callAI(prompt, { jsonMode = false } = {}) {
+  if (!process.env.OPENROUTER_API_KEY) {
     return null;
   }
 
-  const model = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
-  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${process.env.GEMINI_API_KEY}`, {
+  const model = process.env.OPENROUTER_MODEL || 'openai/gpt-4o-mini';
+  const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`
+    },
     body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }]
+      model,
+      messages: [{ role: 'user', content: prompt }],
+      ...(jsonMode ? { response_format: { type: 'json_object' } } : {})
     })
   });
 
   if (!response.ok) {
-    throw new Error('Gemini request failed');
+    throw new Error('AI request failed');
   }
 
   const data = await response.json();
-  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+  const text = data?.choices?.[0]?.message?.content || '{}';
   return text;
 }
 
@@ -63,18 +68,37 @@ app.get('/api/trips/:id/members', (req, res) => {
   res.json(trip?.members || []);
 });
 
+// POST /api/chat
+app.post('/api/chat', async (req, res) => {
+  const { message, tripId } = req.body || {};
+  const trip = trips.find((item) => item.id === tripId);
+  const prompt = buildChatPrompt(message, trip);
+
+  try {
+    const aiResponse = await callAI(prompt);
+    if (aiResponse) {
+      return res.json({ reply: aiResponse.trim() || 'TripBuddy AI can help with that.' });
+    }
+  } catch (error) {
+    console.error('AI chat request failed:', error.message);
+  }
+
+  return res.json({ reply: "TripBuddy AI isn't available right now — try again shortly." });
+});
+
 // POST /api/generate-itinerary
 app.post('/api/generate-itinerary', async (req, res) => {
   const prompt = buildItineraryPrompt(req.body.members || []);
 
   try {
-    const geminiResponse = await callGemini(prompt);
-    if (geminiResponse) {
-      const parsed = JSON.parse(geminiResponse);
+    const aiResponse = await callAI(prompt, { jsonMode: true });
+    if (aiResponse) {
+      const cleanedResponse = aiResponse.trim().replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/i, '');
+      const parsed = JSON.parse(cleanedResponse);
       return res.json(parsed);
     }
   } catch (error) {
-    console.error('Gemini fallback triggered:', error.message);
+    console.error('AI itinerary request failed:', error.message);
   }
 
   const itinerary = {
@@ -101,9 +125,18 @@ app.get('/api/expenses', (req, res) => {
   res.json(filtered);
 });
 
-// Gemini prompt helpers
+// AI prompt helpers
 export function buildItineraryPrompt(travellers) {
   return `You are TripBuddy AI, an expert group travel planner. Create a fair, realistic itinerary for the following travellers. Respect budgets, arrival times, dietary restrictions, pace preferences, and interests. Group nearby activities together and avoid overloading chill travellers. Return valid JSON with day, time, activity, location, and notes fields. Travellers: ${JSON.stringify(travellers)}`;
+}
+
+export function buildChatPrompt(question, trip) {
+  const safeQuestion = (question || '').trim();
+  const tripContext = trip
+    ? `Trip destination: ${trip.destination || 'your destination'}\nTrip dates: ${trip.startDate || 'TBD'} to ${trip.endDate || 'TBD'}\nGroup members:\n${(trip.members || []).map((member) => `- ${member.name || 'Member'}: budget ${member.budget || 'flexible'}, dietary ${member.dietary || 'flexible'}, pace ${member.pace || 'balanced'}, interests ${member.interests || 'varied'}`).join('\n')}`
+    : 'No specific trip context provided.';
+
+  return `You are TripBuddy AI, a helpful group travel assistant for this trip. Use the trip context below to answer the user's question concisely and practically.\n\nTrip context:\n${tripContext}\n\nUser question: ${safeQuestion || 'Help me plan something practical for this trip.'}\n\nAnswer directly with a short practical suggestion. Respect any constraints mentioned such as dietary needs, pace, interests, and budget.`;
 }
 
 export function buildExpenseParserPrompt(text) {

@@ -13,6 +13,7 @@ export default function ExpensesPage() {
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
   const [paidBy, setPaidBy] = useState('');
+  const [category, setCategory] = useState('Food');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -49,7 +50,7 @@ export default function ExpensesPage() {
       tripId: activeTrip?.id,
       paidBy,
       amount: numericAmount,
-      category: 'Food',
+      category,
       description: description.trim(),
       splitBetween: (activeTrip?.members || []).map((member) => member.name),
       status: 'pending'
@@ -60,6 +61,7 @@ export default function ExpensesPage() {
       setExpenses((current) => [created, ...current]);
       setDescription('');
       setAmount('');
+      setCategory('Food');
       setPaidBy(activeTrip?.members?.[0]?.name || '');
     } catch (error) {
       console.error(error);
@@ -85,7 +87,7 @@ export default function ExpensesPage() {
                 </div>
                 <Button onClick={addExpense}>Add expense</Button>
               </div>
-              <div className="grid gap-3 md:grid-cols-[1.2fr_0.4fr_0.4fr]">
+              <div className="grid gap-3 md:grid-cols-[1.2fr_0.25fr_0.25fr_0.25fr]">
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
@@ -101,6 +103,17 @@ export default function ExpensesPage() {
                   className="w-full rounded-[24px] border border-[var(--border)] bg-white p-4 text-sm text-[var(--text-primary)] outline-none ring-0"
                   placeholder="Amount"
                 />
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="w-full rounded-[24px] border border-[var(--border)] bg-white p-4 text-sm text-[var(--text-primary)] outline-none ring-0"
+                >
+                  <option value="Food">Food</option>
+                  <option value="Transport">Transport</option>
+                  <option value="Stay">Stay</option>
+                  <option value="Activities">Activities</option>
+                  <option value="Other">Other</option>
+                </select>
                 <select
                   value={paidBy}
                   onChange={(e) => setPaidBy(e.target.value)}

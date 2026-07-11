@@ -49,3 +49,10 @@ export function generateItinerary(payload) {
     body: JSON.stringify(payload)
   });
 }
+
+export function sendChatMessage(message, tripId) {
+  return request('/api/chat', {
+    method: 'POST',
+    body: JSON.stringify({ message, tripId })
+  });
+}
