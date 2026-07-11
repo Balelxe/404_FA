@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useTrip } from '../context/TripContext';
+import { mockTrip } from '../data/mockData';
 import {
   ArrowRight,
   CalendarDays,
@@ -36,6 +38,8 @@ const activity = [
 ];
 
 export default function LandingPage() {
+  const { setActiveTrip } = useTrip();
+
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)]">
       <main className="mx-auto max-w-7xl px-6 py-8 lg:px-10 lg:py-10">
@@ -154,7 +158,11 @@ export default function LandingPage() {
                     <p className="font-semibold text-[var(--text-primary)]">28°C Sunny</p>
                   </div>
                 </div>
-                <Link to="/dashboard" className="inline-flex items-center gap-2 rounded-full bg-[var(--green-primary)] px-4 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5">
+                <Link
+                  to="/dashboard"
+                  onClick={() => setActiveTrip(mockTrip)}
+                  className="inline-flex items-center gap-2 rounded-full bg-[var(--green-primary)] px-4 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5"
+                >
                   Continue Planning
                   <ChevronRight size={18} />
                 </Link>
@@ -203,7 +211,11 @@ export default function LandingPage() {
                 <div className="h-full w-[72%] rounded-full bg-gradient-to-r from-[var(--green-primary)] to-[var(--accent-sky)]" />
               </div>
             </div>
-            <Link to="/dashboard" className="mt-6 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[var(--green-primary)] to-[var(--accent-sky)] px-6 py-4 text-base font-semibold text-white shadow-[0_14px_35px_rgba(79,209,181,0.24)] transition hover:-translate-y-0.5">
+            <Link
+              to="/dashboard"
+              onClick={() => setActiveTrip(mockTrip)}
+              className="mt-6 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[var(--green-primary)] to-[var(--accent-sky)] px-6 py-4 text-base font-semibold text-white shadow-[0_14px_35px_rgba(79,209,181,0.24)] transition hover:-translate-y-0.5"
+            >
               Continue Planning
             </Link>
           </div>
