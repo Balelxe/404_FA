@@ -121,10 +121,10 @@ export default function LandingPage() {
 
           <div className="relative overflow-hidden rounded-[32px] border border-[var(--border)] bg-white shadow-[0_30px_70px_rgba(16,80,60,0.08)]">
             <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[var(--green-primary)]/15 to-transparent" />
-            <div className="relative h-[520px] overflow-hidden rounded-[32px] lg:h-[620px]">
+            <div className="relative h-full min-h-[420px] overflow-hidden rounded-[32px]">
               <img
                 src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80"
-                alt="Bali beach getaway"
+                alt="Santorini coastal getaway"
                 className="h-full w-full object-cover"
               />
             </div>
@@ -132,7 +132,7 @@ export default function LandingPage() {
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className="text-xs uppercase tracking-[0.24em] text-[var(--text-secondary)]">Trip summary</p>
-                  <h2 className="mt-2 text-xl font-semibold text-[var(--text-primary)]">Bali Getaway</h2>
+                  <h2 className="mt-2 text-xl font-semibold text-[var(--text-primary)]">Santorini Reset</h2>
                 </div>
                 <div className="rounded-2xl bg-[var(--bg-secondary)] px-3 py-2 text-xs font-semibold text-[var(--text-primary)]">5 Members</div>
               </div>
@@ -183,14 +183,14 @@ export default function LandingPage() {
             <div className="overflow-hidden rounded-[28px] bg-slate-100">
               <img
                 src="https://images.unsplash.com/photo-1517511620798-cec17d428bc0?auto=format&fit=crop&w=1200&q=80"
-                alt="Bali villa retreat"
+                alt="Santorini villa retreat"
                 className="h-72 w-full object-cover"
               />
             </div>
             <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
               <div>
                 <p className="text-sm uppercase tracking-[0.24em] text-[var(--text-secondary)]">Upcoming Trip</p>
-                <h2 className="mt-3 text-3xl font-semibold text-[var(--text-primary)]">Bali Getaway</h2>
+                <h2 className="mt-3 text-3xl font-semibold text-[var(--text-primary)]">Santorini Reset</h2>
               </div>
               <div className="rounded-full bg-[var(--bg-secondary)] px-4 py-2 text-sm font-semibold text-[var(--text-primary)]">AI status: optimizing</div>
             </div>
@@ -286,15 +286,15 @@ export default function LandingPage() {
             </div>
             <div className="relative overflow-hidden rounded-[32px] bg-slate-100 shadow-[0_30px_70px_rgba(16,80,60,0.08)]">
               <img
-                src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80"
-                alt="Santorini travel recommendation"
+                src="https://images.unsplash.com/photo-1573790387438-4da905039392?auto=format&fit=crop&w=1200&q=80"
+                alt="Oia cliffside village in Santorini"
                 className="h-full min-h-[360px] w-full object-cover"
               />
               <div className="absolute inset-x-0 bottom-0 rounded-b-[32px] bg-gradient-to-t from-black/65 to-transparent p-8 text-white">
                 <p className="text-sm uppercase tracking-[0.24em] text-white/80">Featured destination</p>
-                <h3 className="mt-3 text-3xl font-semibold">Santorini coastline</h3>
+                <h3 className="mt-3 text-3xl font-semibold">Oia cliffside village</h3>
                 <p className="mt-2 max-w-sm text-sm text-white/80">
-                  A premium getaway with seaside sunsets, smooth villa stays, and effortless group planning.
+                  A dreamy Santorini escape with blue domes, caldera views, and charming seaside evenings.
                 </p>
               </div>
             </div>
